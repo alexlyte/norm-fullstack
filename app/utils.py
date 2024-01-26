@@ -32,12 +32,12 @@ class DocumentService:
 
     """
     Update this service to load the pdf and extract its contents.
-    The example code below will help guide data structured required
-    when using the QdrantService.load() method above. Note: for this
+    The example code below will help with the data structured required
+    when using the QdrantService.load() method below. Note: for this
     exercise, ignore the subtle difference between llama-index's 
-    Document and Node classes.
-    """
+    Document and Node classes (i.e, treat them as interchangeable).
 
+    # example code
     def create_documents() -> list[Document]:
 
         docs = [
@@ -52,6 +52,8 @@ class DocumentService:
         ]
 
         return docs
+
+     """
 
 class QdrantService:
     def __init__(self, k: int = 2):
