@@ -40,7 +40,7 @@ class DocumentService:
 
     def create_documents() -> list[Document]:
 
-        output = [
+        docs = [
             Document(
                 metadata={"Section": "Law 1"},
                 text="Theft is punishable by hanging",
@@ -51,7 +51,7 @@ class DocumentService:
             ),
         ]
 
-        return output
+        return docs
 
 class QdrantService:
     def __init__(self, k: int = 2):
@@ -105,14 +105,15 @@ class QdrantService:
        
 
 if __name__ == "__main__":
-    # Example (partial) workflow
-    doc_serivce = DocumentService()
-    """Additional document-related steps"""
+    # Example workflow
+    doc_serivce = DocumentService() # implemented
+    docs = doc_serivce.create_documents() # NOT implemented
 
-    index = QdrantService()
-    """Additional index-related steps"""
+    index = QdrantService() # implemented
+    index.connect() # implemented
+    index.load() # implemented
 
-    index.query("what happens if I steal?")
+    index.query("what happens if I steal?") # NOT implemented
 
 
 
