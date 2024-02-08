@@ -102,14 +102,15 @@ class DocumentService:
 
     def create_documents(self, parse_files: bool = True):
         docs = []
-        for filename in os.listdir(self.foldername):
+        for filename in os.listdir(self.input_foldername):
             # Convert pdfs to text
             if parse_files:
-                input_filepath = os.path.join(self.foldername, filename)
+                input_filepath = os.path.join(self.input_foldername, filename)
                 self.convert_pdf_to_text(input_filepath)
 
             # Create the text file path
-            text_filepath = "../text_docs/{}.txt".format(filename)
+            text_filename = "../text_docs/{}.txt".format(filename)
+            text_filepath = os.path.join(self.output_foldername, text_filename)
 
             # Read the file into memory
             with open(text_filepath, 'r') as file:
