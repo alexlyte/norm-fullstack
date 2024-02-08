@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import os
 import re
+import csv
 from pydantic import BaseModel, Field
 import qdrant_client
 from llama_index.vector_stores.qdrant import QdrantVectorStore
@@ -62,6 +63,28 @@ class DocumentService:
     def __init__(self, input_foldername: str, output_foldername: str):
         self.input_foldername = input_foldername
         self.output_foldername = output_foldername
+        self.textract_foldername = "textract_docs/laws"
+
+    def parse_textract(self):
+        regex = re.compile(r'\d+(\.\d+)*\.', re.MULTILINE)
+
+        filename = os.path.join(self.textract_foldername, "layout.csv")
+        with open(filename, newline='') as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=',')
+            texts = []
+            for row in spamreader:
+                text = row[2]
+                if text:
+                    matches = regex.finditer(text)
+                    section = ""
+                    for match in matches:
+                        section = match.group()
+                        break
+                    
+                texts.append(Document(metadata={"Section" : section, "filename" : filename}, text=text))
+            return texts
+
+    
 
     def convert_pdf_to_text(self, input_filepath):
         output_filename = "{}.txt".format(input_filepath)
@@ -196,17 +219,16 @@ class QdrantService:
         )
 
 if __name__ == "__main__":
-    # # Example workflow
-    doc_serivce = DocumentService("./docs/") # implemented
+    # # # Example workflow
+    doc_serivce = DocumentService("./docs/", "./text_docs") # implemented
     docs = doc_serivce.create_documents(parse_files=False) # implemented
-
+    # docs = doc_serivce.parse_textract()
     index = QdrantService(k=3) # implemented
     index.connect() # implemented
     index.load(docs) # implemented
 
     output = index.query("what happens if I steal?") # NOT implemented
     print(output)
-
 
 
 
