@@ -30,5 +30,5 @@ for legal compliance from a full-stack perspective?
 
 How would you address these challenges to make the system robust and user-friendly?
 
-    I'd build a standardized document model and universal citation standard, and a machine learning algorithm
+    I'd build a standardized document model and universal citation format, and a machine learning algorithm
     to map all such documents into that format. 
