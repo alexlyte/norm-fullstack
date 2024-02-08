@@ -59,12 +59,14 @@ class DocumentService:
 
      """
 
-    def __init__(self, foldername: str):
-        self.foldername = foldername
+    def __init__(self, input_foldername: str, output_foldername: str):
+        self.input_foldername = input_foldername
+        self.output_foldername = output_foldername
 
     def convert_pdf_to_text(self, input_filepath):
-        output_filename = "text_docs/{}.txt".format(input_filepath)
-        os.system("java -jar tika-app-2.9.1.jar -T {} > {}".format(input_filepath, output_filename))
+        output_filename = "{}.txt".format(input_filepath)
+        output_filepath = os.path.join(self.output_foldername, output_filename)
+        os.system("java -jar tika-app-2.9.1.jar -T {} > {}".format(input_filepath, output_filepath))
         return output_filename
 
     def split_text_with_regex(self, input_text):

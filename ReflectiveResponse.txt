@@ -1,15 +1,34 @@
 What unique challenges do you foresee in developing and integrating AI regulatory agents 
 for legal compliance from a full-stack perspective? 
-- Document variation
-    - My current Regex solution separates the text and enumerations, which is sufficient for uniquely citing passages of text. 
-    - A better solution would also differentiate titles from text, and would be amenable to other types of enumeration, 
-        such as alphabetical enumerations. 
-    - This solution also confused the Document Title in 2 ways: The document title property, 'got_laws', was injected into the 
-        stream. But also, the visually-apparent document title, 'Laws of the Seven Kingdoms', was merged in with other texts. 
-        A more robust solution would differentiate document titles from document text. 
-    - AWS Textract was able to selectively itemize each element, so integrating with that could improve performance. 
 
-- Citations not being reconciled
+    In my experience I've faced 3 major hurdles in developing legal support tools. First, documents come in all shapes and sizes, 
+    some with standard structures and some without, requiring particular document parsers to be written for each domain. 
+    Second, citations can help in identifying relevant context, but standardizing 
+    citations across many document types is non-trivial. Third, the set of relevant documents for a given use case can be quite broad, 
+    and each new customer base will likey require a new set of documents. This can add up-front cost to each new engagement, though 
+    it does have a network effect when there's only a marginal amount of additional documents to add for each use case. 
+
+    On document formats, relevant retrieval requires documents small enough for humans to review quickly. 
+    Some document collections in the legal domain have good structure, such as the US Code, and to a lesser extent
+    the Code of Federal Regulations. However, even the XML forms of those collections often have structures such as 
+    lists that can be difficult to deconstruct and reason about, often requiring linguistic transformations that
+    alter the original text. Some document collections have odd layouts, including multiple columns of text, margin notes, and 'metadata' 
+    (such as parties in court filings) which are important but not as easily parsable. Agency policies, for example, 
+    such as guidance documents, are considered relevant law, and are often just random PDFs. Finally, some documents,
+    particularly case law (which is an important corpora for many reasons), have weird features such as stamps, staples, 
+    references, and signatures, which can obscure parsers. 
+
+    Citations are a form of legal 'ground-truth' in which an author has said a document is relevant, meaning it contains
+    some original text or context for a decision. While some citations are easy to parse at some level, such as US Code citations, 
+    others are not, such as citations to random agency policy documents. As far as I'm aware, there is no public unified 
+    standard for citations, though likely each legal tech company has their own methods. This is critical both for
+    making citations in documents easily navigable and idenitfying documents that cite a given document.
+
+    Finally, understanding the space of relevant documents and integrating them into the database is an ongoing task. Each 
+    use case requires a different set of documents, along with existing ones. Having a scalable way to do this is critical. 
+
 
 How would you address these challenges to make the system robust and user-friendly?
 
+    I'd build a standardized document model and universal citation standard, and a machine learning algorithm
+    to map all such documents into that format. 

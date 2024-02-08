@@ -10,12 +10,12 @@ class ItemQuery(BaseModel):
 @app.post("/query")
 async def query(item: ItemQuery) -> Output:
 
-    doc_serivce = DocumentService("../docs/") # implemented
-    docs = doc_serivce.create_documents(parse_files=False) # implemented
+    doc_serivce = DocumentService("../docs/", "../text_docs/")
+    docs = doc_serivce.create_documents(parse_files=False)
 
-    index = QdrantService(k=3) # implemented
-    index.connect() # implemented
-    index.load(docs) # implemented
+    index = QdrantService(k=3)
+    index.connect()
+    index.load(docs)
 
-    return index.query(item.item_query) # NOT implemented
+    return index.query(item.item_query)
 
