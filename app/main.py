@@ -1,10 +1,21 @@
-from fastapi import FastAPI, Query
-from app.utils import Output
+from utils import Output, DocumentService, QdrantService
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
-"""
-Please create an endpoint that accepts a query string, e.g., "what happens if I steal 
-from the Sept?" and returns a JSON response serialized from the Pydantic Output class.
-"""
+class ItemQuery(BaseModel):
+    item_query: str
+
+@app.post("/query")
+async def query(item: ItemQuery) -> Output:
+
+    doc_serivce = DocumentService("../docs/") # implemented
+    docs = doc_serivce.create_documents(parse_files=False) # implemented
+
+    index = QdrantService(k=3) # implemented
+    index.connect() # implemented
+    index.load(docs) # implemented
+
+    return index.query(item.item_query) # NOT implemented
 

@@ -107,7 +107,7 @@ class DocumentService:
                 self.convert_pdf_to_text(input_filepath)
 
             # Create the text file path
-            text_filepath = "text_docs/{}.txt".format(filename)
+            text_filepath = "../text_docs/{}.txt".format(filename)
 
             # Read the file into memory
             with open(text_filepath, 'r') as file:
