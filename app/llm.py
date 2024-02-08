@@ -7,12 +7,6 @@ import time
 
 client = OpenAI()
 
-class Document(BaseModel):
-    filename: str = Field(..., description="The name of the file the document came from")  
-    enumeration: str = Field(..., description="The enumerated section number of the document, e.g., '1.1.1'")
-    title: str = Field(..., description="The title of the section, e.g., 'Introduction'")
-    text: str = Field(..., description="The text of the document")
-
 def upload_file(filepath):
     file = client.files.create(
         file=open(filepath, "rb"),
