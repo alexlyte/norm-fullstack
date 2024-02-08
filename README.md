@@ -1,1 +1,20 @@
- This repository contains a list of laws (`docs/laws.pdf`) taken from the fictional series “Game of Thrones” (randomly pulled from a wiki fandom site... unfortunately knowledge of the series does not provide an edge on this assignment). Your task is to implement a new service (described in take home exercise document) and provide access to that service via a FastAPI endpoint running in a docker container. Please replace this readme with the steps required to run your app.
+# Setup
+
+```
+# Install Requirements
+pip install -r requirements.txt
+
+# Download Apache Tika
+wget https://dlcdn.apache.org/tika/2.9.1/tika-app-2.9.1.jar > tika-app-2.9.1.jar
+
+# Start the server
+cd app
+uvicorn main:app --reload
+```
+
+# Usage
+```
+curl --location 'http://127.0.0.1:8000/query' \
+--header 'Content-Type: application/json' \
+--data '{"item_query" : "what happens if I steal?"}'
+```
